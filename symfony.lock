@@ -433,5 +433,8 @@
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"
+    },
+    "zingchart/zingchart": {
+        "version": "2.8.4"
     }
 }
