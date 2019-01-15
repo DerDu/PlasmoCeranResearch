@@ -33,18 +33,20 @@ class DefaultController extends AbstractController
     public function index()
     {
 
-        dd(stream_get_wrappers());
+//        dd(stream_get_wrappers());
 
-        fopen('ftp://media-repository@192.168.200.220' , 'r');
+//        dd(fopen('ftp://'.urlencode('media-repository').':'.urlencode('!Media#200.220').'@192.168.200.220/documents/plasmoceran/0072_20170504.csv' , 'r'));
 //
-//        $this->importHelper->openFtp();
-//        $this->importHelper->authFtp();
-//        $list = $this->importHelper->fetchList('/documents');
-//        dump($list);
-//        $file = current($list);
-//        $csv = $this->importHelper->readCsv($file);
-//        dump($csv);
-//        $this->importHelper->closeFtp();
+        $this->importHelper->openFtp();
+        $this->importHelper->authFtp();
+        $list = $this->importHelper->fetchList('/documents');
+        dump($list);
+        $file = current($list);
+        $csv = $this->importHelper->readCsv($file);
+        dump($csv);
+        $this->importHelper->closeFtp();
+
+        dd();
 
         return $this->render('base.html.twig', [
             'title' => ':)'
