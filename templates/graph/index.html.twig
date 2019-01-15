@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    GraphTest
+{% endblock %}
+
+{% block body %}
+    <div id="myChart"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/graph.js') }}"></script>
+    <script type="text/javascript">
+        zingchart.render({
+            id: 'myChart',
+            data: myConfig
+        });
+    </script>
+{% endblock %}
+
+

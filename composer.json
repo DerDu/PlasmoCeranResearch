@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-ftp": "*",
         "ext-iconv": "*",
+        "emersion/php-wrappers": "dev-master",
         "fezvrasta/popper": "1.14.6",
         "jquery/jquery": "3.3.1",
         "sensio/framework-extra-bundle": "^5.2",

@@ -80,6 +80,9 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
+    "emersion/php-wrappers": {
+        "version": "dev-master"
+    },
     "facebook/webdriver": {
         "version": "1.6.0"
     },

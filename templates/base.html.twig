@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>{% block title %}PCR Project - {{ title }}{% endblock %}</title>
+    <title>PCR Project</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     {% block stylesheets %}
@@ -16,13 +16,14 @@
 <body>
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="masthead mb-auto">
+    <header class="masthead">
         <div class="inner">
-            <h3 class="masthead-brand">PCR: {{ title }}</h3>
+            <h3 class="masthead-brand">{% block title %}PCR: {% endblock %}</h3>
             <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="#">Home</a>
-                <a class="nav-link" href="#">Features</a>
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link {% if app.request.get('_route') == 'article.index' %}active{% endif %}" href="{{ path('article.index') }}">Artikel</a>
+                <a class="nav-link {% if app.request.get('_route') == 'graph.index' %}active{% endif %}" href="{{ path('graph.index') }}">Visualisierung</a>
+                <a class="nav-link {% if app.request.get('_route') == 'data.import' %}active{% endif %}" href="{{ path('data.import') }}">Daten importieren</a>
+                <a class="nav-link {% if app.request.get('_route') == 'data.index' %}active{% endif %}" href="{{ path('data.index') }}">Auswertung</a>
             </nav>
         </div>
     </header>
@@ -40,9 +41,14 @@
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
-            <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
-                    href="https://twitter.com/mdo">@mdo</a>.</p>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link {% if app.request.get('_route') == 'article.index' %}active{% endif %}" href="{{ path('article.index') }}">Artikel</a>
+                <a class="nav-link {% if app.request.get('_route') == 'graph.index' %}active{% endif %}" href="{{ path('graph.index') }}">Visualisierung</a>
+                <a class="nav-link {% if app.request.get('_route') == 'data.import' %}active{% endif %}" href="{{ path('data.import') }}">Daten importieren</a>
+                <a class="nav-link {% if app.request.get('_route') == 'data.index' %}active{% endif %}" href="{{ path('data.index') }}">Auswertung</a>
+            </nav>
         </div>
+        <a class="nav-link zc-ref" target="_blank" href="https://www.zingchart.com/">Charts by ZingChart</a>
     </footer>
 </div>
 

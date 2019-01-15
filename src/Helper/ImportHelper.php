@@ -2,6 +2,24 @@
 
 namespace App\Helper;
 
+//
+//        FtpStream::register();
+//        $finder = new Finder();
+//        $finder->in('ftp://'.urlencode('media-repository').':'.urlencode('!Media#200.220').'@192.168.200.220/documents/plasmoceran/');
+//        $finder->ignoreDotFiles(true);
+//        $finder->ignoreUnreadableDirs(true);
+//        $finder->depth(0);
+//        $finder->files();
+//        $finder->name('*.csv');
+//
+//        $iterator = $finder->getIterator();
+//        foreach( $iterator as $splFileInfo ) {
+//            dump($splFileInfo->getRelativePathname());
+//        }
+//
+//        FtpStream::unregister();
+
+
 class ImportHelper
 {
 
