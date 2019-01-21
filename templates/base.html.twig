@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100 w-100">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,44 +13,53 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column h-100 w-100">
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="masthead">
-        <div class="inner">
-            <h3 class="masthead-brand">{% block title %}PCR: {% endblock %}</h3>
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link {% if app.request.get('_route') == 'article.index' %}active{% endif %}" href="{{ path('article.index') }}">Artikel</a>
-                <a class="nav-link {% if app.request.get('_route') == 'graph.index' %}active{% endif %}" href="{{ path('graph.index') }}">Visualisierung</a>
-                <a class="nav-link {% if app.request.get('_route') == 'data.import' %}active{% endif %}" href="{{ path('data.import') }}">Daten importieren</a>
-                <a class="nav-link {% if app.request.get('_route') == 'data.index' %}active{% endif %}" href="{{ path('data.index') }}">Auswertung</a>
-            </nav>
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">{% block title %}PCR: {% endblock %}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if app.request.get('_route') == 'article.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('article.index') }}">Artikel</a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'graph.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('graph.index') }}">Visualisierung</a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'data.import' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('data.import') }}">Daten importieren</a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'data.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('data.index') }}">Auswertung</a>
+                </li>
+            </ul>
         </div>
-    </header>
+    </nav>
+</header>
 
-    <main role="main" class="inner cover">
-        {% block body %}
-            <h1 class="cover-heading">Cover your page.</h1>
-            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit
-                the text, and add your own fullscreen background photo to make it your own.</p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-            </p>
-        {% endblock %}
-    </main>
+<main role="main" class="flex-shrink-0">
+    <div class="container-fluid mt-5 pt-4">
+    {% block body %}
+        <h1 class="cover-heading">Cover your page.</h1>
+        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit
+            the text, and add your own fullscreen background photo to make it your own.</p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
+        </p>
+    {% endblock %}
+    </div>
+</main>
 
-    <footer class="mastfoot mt-auto">
-        <div class="inner">
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link {% if app.request.get('_route') == 'article.index' %}active{% endif %}" href="{{ path('article.index') }}">Artikel</a>
-                <a class="nav-link {% if app.request.get('_route') == 'graph.index' %}active{% endif %}" href="{{ path('graph.index') }}">Visualisierung</a>
-                <a class="nav-link {% if app.request.get('_route') == 'data.import' %}active{% endif %}" href="{{ path('data.import') }}">Daten importieren</a>
-                <a class="nav-link {% if app.request.get('_route') == 'data.index' %}active{% endif %}" href="{{ path('data.index') }}">Auswertung</a>
-            </nav>
-        </div>
-        <a class="nav-link zc-ref" target="_blank" href="https://www.zingchart.com/">Charts by ZingChart</a>
-    </footer>
-</div>
+{#<footer class="footer mt-auto py-3">#}
+    {#<div class="container">#}
+        {#<a class="nav-link zc-ref" target="_blank" href="https://www.zingchart.com/">Charts by ZingChart</a>#}
+    {#</div>#}
+{#</footer>#}
 
 
 <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>

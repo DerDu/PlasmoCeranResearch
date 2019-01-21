@@ -23,6 +23,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
+     * @var null|ArticleRepository $articleRepository
+     */
+    private $articleRepository = null;
+
+    /**
+     * ArticleController constructor.
+     * @param ArticleRepository $articleRepository
+     */
+    public function __construct( ArticleRepository $articleRepository )
+    {
+        $this->articleRepository = $articleRepository;
+    }
+
+
+    /**
      * @Route("/", name="article.index", methods="GET|POST")
      */
     public function index(Request $request): Response
@@ -53,7 +68,7 @@ class ArticleController extends AbstractController
         return $this->render('article/index.html.twig', [
 //            'menus' => DefaultController::getMenu(),
 //            'form' => $form,
-//            'articles' => $articleRepository->findAll()
+            'articles' => $this->articleRepository->findAll()
         ]);
     }
 

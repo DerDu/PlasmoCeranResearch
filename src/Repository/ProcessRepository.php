@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Data;
+use App\Entity\Process;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Data|null find($id, $lockMode = null, $lockVersion = null)
- * @method Data|null findOneBy(array $criteria, array $orderBy = null)
- * @method Data[]    findAll()
- * @method Data[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Process|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Process|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Process[]    findAll()
+ * @method Process[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DataRepository extends ServiceEntityRepository
+class ProcessRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Data::class);
+        parent::__construct($registry, Process::class);
     }
 
 //    /**
-//     * @return Data[] Returns an array of Data objects
+//     * @return Process[] Returns an array of Process objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class DataRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Data
+    public function findOneBySomeField($value): ?Process
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.exampleField = :val')
