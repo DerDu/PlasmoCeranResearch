@@ -1,0 +1,5 @@
+api_platform:
+    title: 'PCR Api'
+    version: '0.1.0'
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']

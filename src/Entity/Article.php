@@ -2,29 +2,30 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Article extends AbstractEntity
 {
-
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="bigint")
-     */
-    protected $id;
-
-    /**
-     * @var ArrayCollection $configList
+     * @ApiSubresource(maxDepth=1)
+     * @Assert\Collection()
+     * @var Collection $configList
      * @ORM\OneToMany(targetEntity="App\Entity\Config", mappedBy="article")
      */
     protected $configList;
     /**
-     * @var ArrayCollection $processList
+     * @ApiSubresource(maxDepth=1)
+     * @Assert\Collection()
+     * @var Collection $processList
      * @ORM\OneToMany(targetEntity="App\Entity\Process", mappedBy="article")
      */
     protected $processList;
@@ -46,34 +47,34 @@ class Article extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getConfigList(): ArrayCollection
+    public function getConfigList(): Collection
     {
         return $this->configList;
     }
 
     /**
-     * @param ArrayCollection $configList
+     * @param Collection $configList
      * @return Article
      */
-    public function setConfigList(ArrayCollection $configList): Article
+    public function setConfigList(Collection $configList): Article
     {
         $this->configList = $configList;
         return $this;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getProcessList(): ArrayCollection
+    public function getProcessList(): Collection
     {
         return $this->processList;
     }
 
     /**
-     * @param ArrayCollection $processList
+     * @param Collection $processList
      * @return Article
      */
-    public function setProcessList(ArrayCollection $processList): Article
+    public function setProcessList(Collection $processList): Article
     {
         $this->processList = $processList;
         return $this;

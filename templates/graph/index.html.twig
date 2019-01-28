@@ -11,13 +11,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/graph.js') }}"></script>
-    <script type="text/javascript">
-        zingchart.render({
-            id: 'myChart',
-            data: myConfig
-        });
-    </script>
+    {{ chart|raw }}
 {% endblock %}
 
 

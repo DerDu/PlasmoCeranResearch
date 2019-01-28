@@ -31,11 +31,8 @@
                 <li class="nav-item {% if app.request.get('_route') == 'graph.index' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('graph.index') }}">Visualisierung</a>
                 </li>
-                <li class="nav-item {% if app.request.get('_route') == 'data.import' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('data.import') }}">Daten importieren</a>
-                </li>
                 <li class="nav-item {% if app.request.get('_route') == 'data.index' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('data.index') }}">Auswertung</a>
+                    <a class="nav-link" href="{{ path('data.index') }}">Daten</a>
                 </li>
             </ul>
         </div>
