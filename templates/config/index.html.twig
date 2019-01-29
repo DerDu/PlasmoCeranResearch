@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    {#Konfigurationen#}
+{% endblock %}
+
+{% block form %}
+    <span class="lead">Neue Konfiguration</span>
+    <hr class="mt-0"/>
+    <div class="p-2">
+        {{ form_start(form) }}
+
+            {{ form_row(form.article) }}
+
+            {{ form_row(form.voltageStart) }}
+            {{ form_row(form.voltageHysteresis) }}
+            {{ form_row(form.voltageLimit) }}
+            {{ form_row(form.voltageStep) }}
+
+            {{ form_row(form.currentLimit) }}
+
+            {{ form_row(form.intensityThreshold) }}
+            {{ form_row(form.intensityHysteresis) }}
+            {{ form_row(form.intensityLimit) }}
+
+            {{ form_row(form.temperatureMaximum) }}
+            {{ form_row(form.overlayText) }}
+
+            <button type="submit" class="btn btn-primary">Konfiguration anlegen</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block body %}
+
+    <table class="table make-dt">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Produkt</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for config in configs %}
+            <tr>
+                <td>{{ config.id }}</td>
+                <td>{{ config.article.name }}</td>
+                <td class="text-right">
+                    <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-primary">edit</a>
+                    <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}" class="btn btn-danger">delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

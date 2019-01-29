@@ -2,12 +2,20 @@
 
 {% block title %}
     {{ parent() }}
+    {#GraphTest#}
 {% endblock %}
 
 {% block form %}
-    {{ parent() }}
+
 {% endblock %}
 
 {% block body %}
-    {{ parent() }}
+    <div id="myChart"></div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ chart|raw }}
+{% endblock %}
+
+

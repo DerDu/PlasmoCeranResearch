@@ -2,23 +2,30 @@
 
 {% block title %}
     {{ parent() }}
-    ArticleTest
+    {#Produkte#}
+{% endblock %}
+
+{% block form %}
+    <span class="lead">Neues Produkt</span>
+    <hr class="mt-0"/>
+    <div class="p-2">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Produkt anlegen</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 
 {% block body %}
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-
-    <h1>Article index</h1>
-
-    <table class="table">
+    <span class="lead">Produkte</span>
+    <hr class="mt-0"/>
+    <div class="p-2">
+    <table class="table make-dt">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Name</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,15 +33,13 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.name }}</td>
-                <td>
-                    <a href="{{ path('article.edit', {'id': article.id}) }}">edit</a>
+                <td class="text-right">
+                    <a href="{{ path('article.edit', {'id': article.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Ändern</a>
+                    <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span> Löschen</a>
                 </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    </div>
 {% endblock %}

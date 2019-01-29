@@ -19,14 +19,14 @@ class Article extends AbstractEntity
      * @ApiSubresource(maxDepth=1)
      * @Assert\Collection()
      * @var Collection $configList
-     * @ORM\OneToMany(targetEntity="App\Entity\Config", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="App\Entity\Config", mappedBy="article", orphanRemoval=true, cascade={"all"})
      */
     protected $configList;
     /**
      * @ApiSubresource(maxDepth=1)
      * @Assert\Collection()
      * @var Collection $processList
-     * @ORM\OneToMany(targetEntity="App\Entity\Process", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="App\Entity\Process", mappedBy="article", orphanRemoval=true, cascade={"all"})
      */
     protected $processList;
     /**

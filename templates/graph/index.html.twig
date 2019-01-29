@@ -2,16 +2,37 @@
 
 {% block title %}
     {{ parent() }}
-    GraphTest
+{% endblock %}
+
+{% block form %}
+
 {% endblock %}
 
 {% block body %}
-    <div id="myChart"></div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.name }}</td>
+                <td class="text-right">
+                    <a href="{{ path('graph.chart', {'id': article.id}) }}" class="btn btn-success">Visualisieren</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Keine Produkte gefunden</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ chart|raw }}
-{% endblock %}
-
-

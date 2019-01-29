@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -13,9 +16,16 @@ class Config extends AbstractEntity
 {
     /**
      * @var Article $article
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="configList")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="configList", cascade={"all"})
      */
     protected $article;
+    /**
+     * @ApiSubresource(maxDepth=1)
+     * @Assert\Collection()
+     * @var Collection $processList
+     * @ORM\OneToMany(targetEntity="App\Entity\Process", mappedBy="config", orphanRemoval=true, cascade={"all"})
+     */
+    protected $processList;
     /**
      * Maximale Temperatur des Elektrolyts
      *

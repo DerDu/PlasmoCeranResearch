@@ -7,6 +7,8 @@
     <title>PCR Project</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('assets/css/cover.css') }}">
     {% endblock %}
@@ -18,7 +20,13 @@
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="/">{% block title %}PCR: {% endblock %}</a>
+        <a class="navbar-brand" href="/" style="font-size: inherit;">
+            {% block title %}
+                P<span class="small text-muted">lasmo</span>
+                C<span class="small text-muted">eran</span>
+                R<span class="small text-muted">esearch</span>
+            {% endblock %}
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,13 +34,16 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item {% if app.request.get('_route') == 'article.index' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('article.index') }}">Artikel</a>
+                    <a class="nav-link" href="{{ path('article.index') }}">Produkt</a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'config.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('config.index') }}">Konfiguration</a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'data.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('data.index') }}">Import</a>
                 </li>
                 <li class="nav-item {% if app.request.get('_route') == 'graph.index' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('graph.index') }}">Visualisierung</a>
-                </li>
-                <li class="nav-item {% if app.request.get('_route') == 'data.index' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('data.index') }}">Daten</a>
                 </li>
             </ul>
         </div>
@@ -40,16 +51,30 @@
 </header>
 
 <main role="main" class="flex-shrink-0">
-    <div class="container-fluid mt-5 pt-4">
-    {% block body %}
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit
-            the text, and add your own fullscreen background photo to make it your own.</p>
-        <p class="lead">
-            <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-        </p>
-    {% endblock %}
+    <div class="container-fluid mt-5 pt-3">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                    {{ message | raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
     </div>
+
+    <div class="container-fluid pt-3">
+        {% block body %}
+            >>BODY<<
+        {% endblock %}
+    </div>
+
+    <div class="container-fluid pt-3">
+        {% block form %}
+            >>FORM<<
+        {% endblock %}
+    </div>
+
+    {#{{ dump() }}#}
+
 </main>
 
 {#<footer class="footer mt-auto py-3">#}
@@ -63,6 +88,53 @@
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/zingchart.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+<script>
+    $('.make-dt').DataTable({
+        "language": {
+            "sEmptyTable": "Keine Daten in der Tabelle vorhanden",
+            "sInfo": "_START_ bis _END_ von _TOTAL_ Einträgen",
+            "sInfoEmpty": "Keine Daten vorhanden",
+            "sInfoFiltered": "(gefiltert von _MAX_ Einträgen)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ Einträge anzeigen",
+            "sLoadingRecords": "Wird geladen ..",
+            "sProcessing": "Bitte warten ..",
+            "sSearch": "Suchen",
+            "sZeroRecords": "Keine Einträge vorhanden",
+            "oPaginate": {
+                "sFirst": "Erste",
+                "sPrevious": "Zurück",
+                "sNext": "Nächste",
+                "sLast": "Letzte"
+            },
+            "oAria": {
+                "sSortAscending": ": aktivieren, um Spalte aufsteigend zu sortieren",
+                "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+            },
+            "select": {
+                "rows": {
+                    "_": "%d Zeilen ausgewählt",
+                    "0": "",
+                    "1": "1 Zeile ausgewählt"
+                }
+            },
+            "buttons": {
+                "print": "Drucken",
+                "colvis": "Spalten",
+                "copy": "Kopieren",
+                "copyTitle": "In Zwischenablage kopieren",
+                "copyKeys": "Taste <i>ctrl</i> oder <i>\u2318</i> + <i>C</i> um Tabelle<br>in Zwischenspeicher zu kopieren.<br><br>Um abzubrechen die Nachricht anklicken oder Escape drücken.",
+                "copySuccess": {
+                    "_": "%d Spalten kopiert",
+                    "1": "1 Spalte kopiert"
+                }
+            }
+        }
+    });
+</script>
 {% block javascripts %}{% endblock %}
 
 </body>

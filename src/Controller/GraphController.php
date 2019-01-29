@@ -46,45 +46,8 @@ class GraphController extends AbstractController
      */
     public function index()
     {
-
-//        $data = $this->processRepository->findAll();
-        $data = $this->processRepository->findBy([
-            Process::PROPERTY_ARTICLE => 1
-        ]);
-
-        if ($data) {
-
-            $s1 = array_map(function (Process $p) {
-                return $p->getCounterFrame();
-            }, $data);
-            $s2 = array_map(function (Process $p) {
-                return $p->getThresholdPixel();
-            }, $data);
-            $s3 = array_map(function (Process $p) {
-                return $p->getCurrentValue();
-            }, $data);
-            $s4 = array_map(function (Process $p) {
-                return $p->getVoltageValue();
-            }, $data);
-
-//        dd( $data[0]->getTimestamp()->getTimestamp().'000', 1484870400000 );
-
-            $zc = new GraphHelper(
-                $data[0]->getArticle()->getName(),
-                'myChart',
-                $data[0]->getTimestamp()->getTimestamp() . '000'
-            );
-
-            $zc->setSeries('Volt', $s4);
-            $zc->setSeries('Current', $s3);
-            $zc->setSeries('Frame', $s1);
-            $zc->setSeries('Pixel', $s2);
-        } else {
-            $zc = new GraphHelper('Not found');
-        }
-
         return $this->render('graph/index.html.twig', [
-            'chart' => $zc->getChart()
+            'articles' => $this->articleRepository->findAll()
         ]);
     }
 
@@ -101,36 +64,45 @@ class GraphController extends AbstractController
 
         if (!$processList->isEmpty()) {
 
+            /** @var Process[] $data */
             $data = $processList->getValues();
 
-            $s1 = array_map(function (Process $p) {
+            $scf = array_map(function (Process $p) {
                 return $p->getCounterFrame();
             }, $data);
-            $s2 = array_map(function (Process $p) {
+            $stp = array_map(function (Process $p) {
                 return $p->getThresholdPixel();
             }, $data);
-            $s3 = array_map(function (Process $p) {
+            $scv = array_map(function (Process $p) {
                 return $p->getCurrentValue();
             }, $data);
-            $s4 = array_map(function (Process $p) {
+            $svv = array_map(function (Process $p) {
                 return $p->getVoltageValue();
+            }, $data);
+            $stv = array_map(function (Process $p) {
+                return $p->getTemperatureValue();
+            }, $data);
+            $srv = array_map(function (Process $p) {
+                return $p->getRemarkValue();
             }, $data);
 
             $zc = new GraphHelper(
                 $article->getName(),
                 'myChart',
-                $article->getTimestamp()->getTimestamp() . '000'
+                $data[0]->getTimestamp()->getTimestamp() . '000'
             );
 
-            $zc->setSeries('Volt', $s4);
-            $zc->setSeries('Current', $s3);
-            $zc->setSeries('Frame', $s1);
-            $zc->setSeries('Pixel', $s2);
+            $zc->setSeries('Volt', $svv);
+            $zc->setSeries('Current', $scv);
+            $zc->setSeries('Frame', $scf);
+            $zc->setSeries('Pixel', $stp);
+            $zc->setSeries('Temp', $stv);
+//            $zc->setSeries('Status', $srv);
         } else {
             $zc = new GraphHelper('Not found');
         }
 
-        return $this->render('graph/index.html.twig', [
+        return $this->render('graph/chart.html.twig', [
             'chart' => $zc->getChart()
         ]);
     }

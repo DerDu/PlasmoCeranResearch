@@ -7,7 +7,6 @@ use App\Form\ArticleAddType;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,20 +35,18 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/", name="article.index", methods="GET|POST")
+     * @Route("/", name="article.index")
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function index(Request $request): Response
     {
 
         $form = $this->createForm( ArticleType::class );
-//
-//        $form = $this->createFormBuilder($article);
-//        $form->add('name', TextType::class);
-        $form->add('add', SubmitType::class, ['label' => 'Artikel hinzufügen']);
-//        $form = $form->getForm();
-
         $form->handleRequest($request);
-//
+
         if ($form->isSubmitted() && $form->isValid()) {
             $article = $form->getData();
             $em = $this->getDoctrine()->getManager();
@@ -57,19 +54,20 @@ class ArticleController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('article.index');
         }
-//
-//        $form->addError(new FormError('123'));
-//        $form = $form->createView();
 
         return $this->render('article/index.html.twig', [
-//            'menus' => DefaultController::getMenu(),
             'form' => $form->createView(),
             'articles' => $this->articleRepository->findAll()
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="article.edit", methods="GET|POST")
+     * @Route("/{id}/edit", name="article.edit")
+     *
+     * @param Request $request
+     * @param Article $article
+     *
+     * @return Response
      */
     public function edit(Request $request, Article $article): Response
     {
@@ -78,27 +76,33 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('article.edit', ['id' => $article->getId()]);
+            $this->addFlash('success', $article->getName().' wurde geändert');
+            return $this->redirectToRoute('article.index');
         }
 
         return $this->render('article/edit.html.twig', [
-            'menus' => DefaultController::getMenu(),
-            'article' => $article,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}/delete", name="article.delete", methods="DELETE")
+     * @Route("/{id}/delete", name="article.delete")
+     *
+     * @param Request $request
+     * @param Article $article
+     *
+     * @return Response
      */
     public function delete(Request $request, Article $article): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
             $em->flush();
+            $this->addFlash('success', $article->getName().' wurde gelöscht');
+            return $this->redirectToRoute('article.index');
         }
+        $this->addFlash('danger', $article->getName().' wurde nicht gelöscht');
 
         return $this->redirectToRoute('article.index');
     }

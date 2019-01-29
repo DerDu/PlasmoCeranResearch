@@ -16,9 +16,14 @@ class Process extends AbstractEntity
 
     /**
      * @var Article $article
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList", cascade={"all"})
      */
     protected $article;
+    /**
+     * @var Config $config
+     * @ORM\ManyToOne(targetEntity="App\Entity\Config", inversedBy="processList", cascade={"all"})
+     */
+    protected $config;
     /**
      * @var \DateTime $timestamp
      * @ORM\Column(type="datetime")

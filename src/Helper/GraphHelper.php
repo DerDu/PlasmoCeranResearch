@@ -35,7 +35,9 @@ class GraphHelper
         $this->chart = new ZC($id);
 
         $this->chart->setChartType("line");
-        $this->chart->setChartHeight(800);
+        $this->chart->setChartHeight(700);
+
+        $this->setConfig('plot.aspect', 'spline');
 
         $this->setConfig('borderColor', 'transparent');
         $this->setConfig('borderWidth', 0);
@@ -108,6 +110,7 @@ class GraphHelper
             'scale-y-3',
             'scale-y-4',
             'scale-y-5',
+            'scale-y-6',
         ];
 
         $axis = [
@@ -115,7 +118,8 @@ class GraphHelper
             'scale-x,scale-y-2',
             'scale-x,scale-y-3',
             'scale-x,scale-y-4',
-            'scale-x,scale-y-5'
+            'scale-x,scale-y-5',
+            'scale-x,scale-y-6',
         ];
 
         $id = 0;
@@ -135,7 +139,7 @@ class GraphHelper
      */
     private function configScale(string $scale, string $name): void
     {
-//        $this->setConfig($scale . '.step', 50);
+//        $this->setConfig($scale . '.step', 10);
         $this->setConfig($scale . '.label.text', $name);
         $this->setConfig($scale . '.guide.lineStyle', 'solid');
     }
@@ -160,6 +164,7 @@ class GraphHelper
         $this->setConfig('series[' . $id . '].legendItem.borderRadius', 0);
         $this->setConfig('series[' . $id . '].marker.size', 2);
         $this->setConfig('series[' . $id . '].marker.border-width', 1);
+        $this->setConfig('series[' . $id . '].line-width', 1);
         if ($color) {
             $this->setConfig('series[' . $id . '].legendItem.backgroundColor', $color);
             $this->setConfig('series[' . $id . '].line-color', $color);
