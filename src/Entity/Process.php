@@ -11,9 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Process extends AbstractEntity
 {
-
     const PROPERTY_ARTICLE = 'article';
-
     /**
      * @var Article $article
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList", cascade={"all"})
@@ -24,6 +22,11 @@ class Process extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="App\Entity\Config", inversedBy="processList", cascade={"all"})
      */
     protected $config;
+    /**
+     * @var string $process
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $process;
     /**
      * @var \DateTime $timestamp
      * @ORM\Column(type="datetime")
@@ -59,6 +62,24 @@ class Process extends AbstractEntity
      * @ORM\Column(type="string")
      */
     protected $remarkValue = null;
+
+    /**
+     * @return Config
+     */
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param Config $config
+     * @return Process
+     */
+    public function setConfig(Config $config): Process
+    {
+        $this->config = $config;
+        return $this;
+    }
 
     /**
      * @return \DateTime
@@ -201,6 +222,25 @@ class Process extends AbstractEntity
     public function setArticle(Article $article): Process
     {
         $this->article = $article;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProcess(): ?string
+    {
+        return $this->process;
+    }
+
+    /**
+     * @param string $process
+     * @return Process
+     */
+    public function setProcess(string $process): Process
+    {
+        $this->process = $process;
+
         return $this;
     }
 }

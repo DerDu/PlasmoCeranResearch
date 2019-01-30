@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Config;
 use App\Entity\Process;
 use App\Repository\ArticleRepository;
+use App\Repository\ConfigRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,8 +22,13 @@ class DataController extends AbstractController
 {
     /**
      * @Route("/", name="data.index")
+     *
+     * @param ArticleRepository $articleRepository
+     * @param ConfigRepository $configRepository
+     *
+     * @return Response
      */
-    public function index(ArticleRepository $articleRepository)
+    public function index(ArticleRepository $articleRepository, ConfigRepository $configRepository)
     {
 
         $fp = fopen($this->getParameter('kernel.project_dir') . '/var/import/0072_20170504.csv', 'r');
@@ -31,15 +40,30 @@ class DataController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
-//        $a = $articleRepository->find(4);
-//        $a = new Article();
-//        $a->setName('ImportTest ' . date('Ymd-His'));
-//        $em->persist($a);
-//        $em->flush();
+//        $a = $articleRepository->find(1);
+        $a = new Article();
+        $a->setName('ImportTest ' . date('Ymd-His'));
+        $em->persist($a);
+        $em->flush();
 
-        array_walk($csv, function ($v) use ($em, $a) {
+//        $c = $configRepository->find(1);
+        $c = new Config();
+        $c->setArticle($a);
+        $c->setOverlayText($a->getName());
+        $em->persist($c);
+        $em->flush();
+
+        try {
+            $uuid = Uuid::uuid4();
+        } catch (\Exception $exception) {
+            $uuid = uniqid(__METHOD__, true);
+        }
+
+        array_walk($csv, function ($v) use ($em, $a, $c, $uuid) {
             $e = new Process();
             $e->setArticle($a);
+            $e->setConfig($c);
+            $e->setProcess($uuid);
             $e->setTimestamp(new \DateTime($v[0]));
             $e->setCounterFrame((int)$v[1] ?? 0);
             $e->setThresholdPixel((int)($v[2] ?? 0));

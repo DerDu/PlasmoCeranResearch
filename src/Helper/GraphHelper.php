@@ -34,6 +34,8 @@ class GraphHelper
     {
         $this->chart = new ZC($id);
 
+        $this->setConfig('utc', true);
+
         $this->chart->setChartType("line");
         $this->chart->setChartHeight(700);
 

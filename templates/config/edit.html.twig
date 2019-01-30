@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block form %}
+    <span class="lead">Konfiguration</span>
+    <hr class="mt-1"/>
+    <div class="p-2">
+        {{ form_start(form) }}
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.overlayText, {'label':'Name'}) }}
+                {{ form_row(form.article) }}
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.voltageLimit) }}
+                {{ form_row(form.voltageHysteresis) }}
+                {{ form_row(form.voltageStart) }}
+                {{ form_row(form.voltageStep) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.intensityLimit) }}
+                {{ form_row(form.intensityHysteresis) }}
+                {{ form_row(form.intensityThreshold) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.currentLimit) }}
+                {{ form_row(form.temperatureMaximum) }}
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <button type="submit" class="btn btn-primary">Konfiguration ändern</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block body %}
+
+{% endblock %}

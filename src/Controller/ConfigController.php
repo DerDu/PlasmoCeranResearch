@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Config;
 use App\Form\ConfigType;
 use App\Repository\ConfigRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,5 +58,51 @@ class ConfigController extends AbstractController
             'form' => $form->createView(),
             'configs' => $this->configRepository->findAll()
         ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="config.edit")
+     *
+     * @param Request $request
+     * @param Config $config
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Config $config): Response
+    {
+        $form = $this->createForm(ConfigType::class, $config);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', ' Wurde geändert');
+            return $this->redirectToRoute('config.index');
+        }
+
+        return $this->render('config/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete", name="config.delete")
+     *
+     * @param Request $request
+     * @param Config $config
+     *
+     * @return Response
+     */
+    public function delete(Request $request, Config $config): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $config->getId(), $request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($config);
+            $em->flush();
+            $this->addFlash('success', 'Wurde gelöscht');
+            return $this->redirectToRoute('config.index');
+        }
+        $this->addFlash('danger', 'Wurde nicht gelöscht');
+
+        return $this->redirectToRoute('config.index');
     }
 }

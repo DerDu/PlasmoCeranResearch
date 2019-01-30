@@ -4,35 +4,63 @@
     {{ parent() }}
 {% endblock %}
 
-{% block form %}
-
+{% block body %}
+    {% if chart is defined %}
+        <div id="myChart"></div>
+    {% endif %}
 {% endblock %}
 
-{% block body %}
+{% block javascripts %}
+    {{ parent() }}
+    {% if chart is defined %}
+        {{ chart|raw }}
+    {% endif %}
+{% endblock %}
 
-    <table class="table">
-        <thead>
+{% block form %}
+
+    <span class="lead">Produkte</span>
+    <hr class="mt-1"/>
+    <div class="p-2">
+        <table class="table make-dt">
+            <thead>
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Konfiguration</th>
+                <th>Von</th>
+                <th>Bis</th>
                 <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td>{{ article.id }}</td>
-                <td>{{ article.name }}</td>
-                <td class="text-right">
-                    <a href="{{ path('graph.chart', {'id': article.id}) }}" class="btn btn-success">Visualisieren</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Keine Produkte gefunden</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+               {% for config in article.configList %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.name }}</td>
+                    <td>{{ config.overlayText }}</td>
+                    {% if article.processList.first is not empty %}
+                        <td>{{ article.processList.first.timestamp|date('d.m.Y H:i:s') }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if article.processList.last is not empty %}
+                        <td>{{ article.processList.last.timestamp|date('d.m.Y H:i:s') }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    <td class="text-right">
+                        <a href="{{ path('graph.chart', {'id': article.id}) }}"
+                           class="btn btn-success">Visualisieren</a>
+                    </td>
+                </tr>
+               {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
+

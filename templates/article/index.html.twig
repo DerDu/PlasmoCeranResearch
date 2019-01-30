@@ -7,10 +7,11 @@
 
 {% block form %}
     <span class="lead">Neues Produkt</span>
-    <hr class="mt-0"/>
+    <hr class="mt-1"/>
     <div class="p-2">
         {{ form_start(form) }}
         {{ form_widget(form) }}
+        <hr class="mt-0"/>
         <button type="submit" class="btn btn-primary">Produkt anlegen</button>
         {{ form_end(form) }}
     </div>
@@ -18,7 +19,7 @@
 
 {% block body %}
     <span class="lead">Produkte</span>
-    <hr class="mt-0"/>
+    <hr class="mt-1"/>
     <div class="p-2">
     <table class="table make-dt">
         <thead>

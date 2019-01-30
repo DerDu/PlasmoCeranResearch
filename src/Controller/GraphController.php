@@ -86,10 +86,13 @@ class GraphController extends AbstractController
                 return $p->getRemarkValue();
             }, $data);
 
+
+            $minValue = $data[0]->getTimestamp()->getTimestamp();
+
             $zc = new GraphHelper(
                 $article->getName(),
                 'myChart',
-                $data[0]->getTimestamp()->getTimestamp() . '000'
+                $minValue . '000'
             );
 
             $zc->setSeries('Volt', $svv);
@@ -102,8 +105,9 @@ class GraphController extends AbstractController
             $zc = new GraphHelper('Not found');
         }
 
-        return $this->render('graph/chart.html.twig', [
-            'chart' => $zc->getChart()
+        return $this->render('graph/index.html.twig', [
+            'chart' => $zc->getChart(),
+            'articles' => $this->articleRepository->findAll()
         ]);
     }
 }

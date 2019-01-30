@@ -19,7 +19,7 @@
 
 <header>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
         <a class="navbar-brand" href="/" style="font-size: inherit;">
             {% block title %}
                 P<span class="small text-muted">lasmo</span>
@@ -33,25 +33,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {% if app.request.get('_route') == 'article.index' %}active{% endif %}">
+                <li class="nav-item {% if app.request.get('_route') starts with 'article' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('article.index') }}">Produkt</a>
                 </li>
-                <li class="nav-item {% if app.request.get('_route') == 'config.index' %}active{% endif %}">
+                <li class="nav-item {% if app.request.get('_route') starts with 'config' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('config.index') }}">Konfiguration</a>
                 </li>
-                <li class="nav-item {% if app.request.get('_route') == 'data.index' %}active{% endif %}">
+                <li class="nav-item {% if app.request.get('_route') starts with 'data' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('data.index') }}">Import</a>
                 </li>
-                <li class="nav-item {% if app.request.get('_route') == 'graph.index' %}active{% endif %}">
+                <li class="nav-item {% if app.request.get('_route') starts with 'graph' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('graph.index') }}">Visualisierung</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted" href="{{ path('api_doc', {'_format': 'html'}) }}">Api</a>
+                </li>
             </ul>
+            <div class="nav-item">
+                <a class="nav-link text-muted" href="{{ path('graph.index') }}">ZC</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" href="{{ path('graph.index') }}">BS4</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" href="{{ path('graph.index') }}">SF</a>
+            </div>
         </div>
     </nav>
 </header>
 
 <main role="main" class="flex-shrink-0">
-    <div class="container-fluid mt-5 pt-3">
+    <div class="container-fluid">
         {% for type, messages in app.session.flashbag.all() %}
             {% for message in messages %}
                 <div class="alert alert-{{ type }} alert-dismissible" role="alert">
@@ -61,17 +73,18 @@
         {% endfor %}
     </div>
 
-    <div class="container-fluid pt-3">
+    <div class="container-fluid py-3">
+        {% block form %}
+            >>FORM<<
+        {% endblock %}
+    </div>
+
+    <div class="container-fluid">
         {% block body %}
             >>BODY<<
         {% endblock %}
     </div>
 
-    <div class="container-fluid pt-3">
-        {% block form %}
-            >>FORM<<
-        {% endblock %}
-    </div>
 
     {#{{ dump() }}#}
 
