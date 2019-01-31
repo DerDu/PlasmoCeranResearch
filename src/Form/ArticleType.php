@@ -24,6 +24,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'required' => false,
             'data_class' => Article::class,
         ]);
     }

@@ -44,7 +44,7 @@ class GraphHelper
         $this->setConfig('borderColor', 'transparent');
         $this->setConfig('borderWidth', 0);
         $this->setConfig('borderRadius', 0);
-        $this->setConfig('backgroundColor', '#f0f0f0');
+        $this->setConfig('backgroundColor', 'transparent');
 
         $this->chart->setTitle($title);
         $this->setConfig('title.adjustLayout', true);

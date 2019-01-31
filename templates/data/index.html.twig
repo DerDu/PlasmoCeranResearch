@@ -1,13 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ parent() }}
-{% endblock %}
-
 {% block form %}
     {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    {{ parent() }}
+
+    <span class="lead">Produkt</span>
+    <hr class="mt-1"/>
+    <div class="p-2">
+    <table class="table make-dt">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.name }}</td>
+                <td class="text-right">
+                    <a href="{{ path('data.index', {'aid': article.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Wählen</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <span class="lead">Konfiguration</span>
+    <hr class="mt-1"/>
+    <div class="p-2">
+    <table class="table make-dt">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for config in configs %}
+            <tr>
+                <td>{{ config.id }}</td>
+                <td>{{ config.name }}</td>
+                <td class="text-right">
+                    <a href="{{ path('data.index', {'cid': config.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Wählen</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
 {% endblock %}
