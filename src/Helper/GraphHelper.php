@@ -65,10 +65,11 @@ class GraphHelper
 
         $this->setConfig('tooltip.visible', false);
 
-//        $this->chart->setLegendTitle($title);
+        $this->chart->setLegendTitle($title);
         $this->setConfig('legend.draggable', false);
-        $this->setConfig('legend.backgroundColor', '#f0f0f0');
-        $this->setConfig('legend.header.backgroundColor', '#f0f0f0');
+        $this->setConfig('legend.backgroundColor', 'transparent');
+        $this->setConfig('legend.header.backgroundColor', 'transparent');
+        $this->setConfig('legend.header.visible', false);
 //        $this->setConfig('legend.marker.visible', false);
 
         $this->setConfig('legend.item.margin', '5 17 2 0');

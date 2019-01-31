@@ -9,9 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/css/cover.css') }}">
-    {% endblock %}
+    {% block stylesheets %}{% endblock %}
 
 </head>
 
@@ -45,18 +43,27 @@
                 <li class="nav-item {% if app.request.get('_route') starts with 'graph' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('graph.index') }}">Visualisierung</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="{{ path('api_doc', {'_format': 'html'}) }}">Api</a>
-                </li>
             </ul>
             <div class="nav-item">
-                <a class="nav-link text-muted" href="{{ path('graph.index') }}">ZC</a>
+                <a class="nav-link text-muted" href="{{ path('api_doc', {'_format': 'html'}) }}">PCR Api</a>
             </div>
             <div class="nav-item">
-                <a class="nav-link text-muted" href="{{ path('graph.index') }}">BS4</a>
+                <a class="nav-link text-muted" target="_blank" href="//www.jquery.com">JQ</a>
             </div>
             <div class="nav-item">
-                <a class="nav-link text-muted" href="{{ path('graph.index') }}">SF</a>
+                <a class="nav-link text-muted" target="_blank" href="//www.fontawesome.com">FA</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" target="_blank" href="//www.zingchart.com">ZC</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" target="_blank" href="//www.datatables.net">DT</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" target="_blank" href="//www.getbootstrap.com">BS</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link text-muted" target="_blank" href="//www.symfony.com">SF</a>
             </div>
         </div>
     </nav>
@@ -66,7 +73,7 @@
     <div class="container-fluid">
         {% for type, messages in app.session.flashbag.all() %}
             {% for message in messages %}
-                <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                <div class="alert alert-{{ type }} my-1" role="alert">
                     {{ message | raw }}
                 </div>
             {% endfor %}
@@ -75,13 +82,13 @@
 
     <div class="container-fluid py-3">
         {% block body %}
-            >>BODY<<
+
         {% endblock %}
     </div>
 
     <div class="container-fluid">
         {% block form %}
-            >>FORM<<
+
         {% endblock %}
     </div>
 
@@ -90,11 +97,9 @@
 
 </main>
 
-{#<footer class="footer mt-auto py-3">#}
-    {#<div class="container">#}
-        {#<a class="nav-link zc-ref" target="_blank" href="https://www.zingchart.com/">Charts by ZingChart</a>#}
-    {#</div>#}
-{#</footer>#}
+<footer class="footer mt-auto py-3">
+
+</footer>
 
 
 <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
@@ -103,6 +108,9 @@
 <script src="{{ asset('assets/js/zingchart.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+<script>
+    $(".alert").delay(5000).slideUp(300);
+</script>
 <script>
     $('.make-dt').DataTable({
         "language": {
@@ -144,8 +152,9 @@
                     "_": "%d Spalten kopiert",
                     "1": "1 Spalte kopiert"
                 }
-            }
-        }
+            },
+        },
+        "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Alle"] ],
     });
 </script>
 {% block javascripts %}{% endblock %}

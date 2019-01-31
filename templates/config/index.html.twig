@@ -43,7 +43,6 @@
         <table class="table make-dt">
             <thead>
             <tr>
-                <th rowspan="2">#</th>
                 <th rowspan="2">Name</th>
                 <th rowspan="2">Produkt</th>
 
@@ -73,7 +72,6 @@
             <tbody>
             {% for config in configs %}
                 <tr>
-                    <td>{{ config.id }}</td>
                     <td>{{ config.overlayText }}</td>
                     <td>{{ config.article.name }}</td>
 
@@ -91,8 +89,10 @@
                     <td>{{ config.temperatureMaximum }}</td>
 
                     <td class="text-right">
-                        <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Ändern</a>
-                        <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span> Löschen</a>
+                        <div class="btn-group">
+                            <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span></a>
+                            <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}" class="btn btn-sm btn-danger"><span class="fa fa-trash-alt"></span></a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

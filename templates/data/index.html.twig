@@ -6,54 +6,66 @@
 
 {% block body %}
 
-    <span class="lead">Produkt</span>
+    <span class="lead">Konfiguration wählen</span>
     <hr class="mt-1"/>
     <div class="p-2">
-    <table class="table make-dt">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
+        <table class="table make-dt">
+            <thead>
             <tr>
-                <td>{{ article.id }}</td>
-                <td>{{ article.name }}</td>
-                <td class="text-right">
-                    <a href="{{ path('data.index', {'aid': article.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Wählen</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </div>
+                <th rowspan="2">Name</th>
+                <th rowspan="2">Produkt</th>
 
-    <span class="lead">Konfiguration</span>
-    <hr class="mt-1"/>
-    <div class="p-2">
-    <table class="table make-dt">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for config in configs %}
-            <tr>
-                <td>{{ config.id }}</td>
-                <td>{{ config.name }}</td>
-                <td class="text-right">
-                    <a href="{{ path('data.index', {'cid': config.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pen-alt"></span> Wählen</a>
-                </td>
+                <th colspan="4">Voltage</th>
+                <th colspan="3">Intensity</th>
+
+                <th>Current</th>
+                <th>Temperature</th>
+
+                <th rowspan="2"></th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <tr>
+                <th>Limit</th>
+                <th>Hysteresis</th>
+                <th>Start</th>
+                <th>Step</th>
+
+                <th>Limit</th>
+                <th>Hysteresis</th>
+                <th>Threshold</th>
+
+                <th>Limit</th>
+
+                <th>Maximum</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for config in configs %}
+                <tr>
+                    <td>{{ config.overlayText }}</td>
+                    <td>{{ config.article.name }}</td>
+
+                    <td>{{ config.voltageLimit }}</td>
+                    <td>{{ config.voltageHysteresis }}</td>
+                    <td>{{ config.voltageStart }}</td>
+                    <td>{{ config.voltageStep }}</td>
+
+                    <td>{{ config.intensityLimit }}</td>
+                    <td>{{ config.intensityHysteresis }}</td>
+                    <td>{{ config.intensityThreshold }}</td>
+
+                    <td>{{ config.currentLimit }}</td>
+
+                    <td>{{ config.temperatureMaximum }}</td>
+
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <a href="{{ path('data.select', {'id': config.id}) }}" class="btn btn-sm btn-success"><span class="fa fa-search"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}

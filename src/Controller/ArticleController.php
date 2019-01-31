@@ -52,6 +52,7 @@ class ArticleController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
+            $this->addFlash('success', $article->getName().' wurde angelegt');
             return $this->redirectToRoute('article.index');
         }
 
