@@ -36,6 +36,8 @@ class GraphHelper
 
         $this->setConfig('utc', true);
 
+        $this->setConfig('gui.contextMenu.empty',true);
+
         $this->chart->setChartType("line");
         $this->chart->setChartHeight(700);
 

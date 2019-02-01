@@ -1,19 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ parent() }}
-    {#Produkt#}
-{% endblock %}
-
 {% block form %}
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-sm btn-primary">Produkt ändern</button>
-    {{ form_end(form) }}
 
 {% endblock %}
 
 {% block body %}
-    {{ parent() }}
+    <span class="lead">Produkt ändern</span>
+    <hr class="mt-1"/>
+    <div class="p-2 bg-light">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <hr class="mt-0"/>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-sm btn-primary">Produkt ändern</button>
+            <a href="{{ path('article.index') }}"
+               class="btn btn-sm btn-danger"
+            >
+                Abbrechen
+            </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

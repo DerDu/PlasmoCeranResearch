@@ -19,44 +19,79 @@
 
 {% block form %}
 
-    <span class="lead">Produkte</span>
+    <span class="lead">Daten</span>
     <hr class="mt-1"/>
-    <div class="p-2">
+    <div class="p-2 bg-light">
         <table class="table make-dt">
             <thead>
+
             <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Konfiguration</th>
-                <th>Von</th>
-                <th>Bis</th>
-                <th></th>
+                <th rowspan="2">Produkt</th>
+                <th rowspan="2">Konfiguration</th>
+
+                <th colspan="4">Spannung</th>
+                <th colspan="3">Funkenintensität</th>
+
+                <th>Stromstärke</th>
+                <th>Temperatur</th>
+
+                <th rowspan="2">Von</th>
+                <th rowspan="2">Bis</th>
+
+                <th rowspan="2"></th>
+            </tr>
+            <tr>
+                <th>Obere Grenze</th>
+                <th>Hysterese</th>
+                <th>Startwert</th>
+                <th>Schrittweite Änderung</th>
+
+                <th>Grenze</th>
+                <th>Hysterese</th>
+                <th>Schwellwert</th>
+
+                <th>Untere Grenze</th>
+
+                <th>Maximum</th>
             </tr>
             </thead>
             <tbody>
             {% for article in articles %}
-               {% for config in article.configList %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.name }}</td>
-                    <td>{{ config.overlayText }}</td>
-                    {% if article.processList.first is not empty %}
-                        <td>{{ article.processList.first.timestamp|date('d.m.Y H:i:s') }}</td>
-                    {% else %}
-                        <td></td>
-                    {% endif %}
-                    {% if article.processList.last is not empty %}
-                        <td>{{ article.processList.last.timestamp|date('d.m.Y H:i:s') }}</td>
-                    {% else %}
-                        <td></td>
-                    {% endif %}
+                {% for config in article.configList %}
+                    <tr>
+                        <td>{{ article.name }}</td>
+                        <td>{{ config.overlayText }}</td>
 
-                    <td class="text-right">
-                        <a href="{{ path('graph.chart', {'id': article.id}) }}"
-                           class="btn btn-sm btn-success">Visualisieren</a>
-                    </td>
-                </tr>
-               {% endfor %}
+                        <td>{{ config.voltageLimit }}</td>
+                        <td>{{ config.voltageHysteresis }}</td>
+                        <td>{{ config.voltageStart }}</td>
+                        <td>{{ config.voltageStep }}</td>
+
+                        <td>{{ config.intensityLimit }}</td>
+                        <td>{{ config.intensityHysteresis }}</td>
+                        <td>{{ config.intensityThreshold }}</td>
+
+                        <td>{{ config.currentLimit }}</td>
+
+                        <td>{{ config.temperatureMaximum }}</td>
+
+                        {% if article.processList.first is not empty %}
+                            <td>{{ article.processList.first.timestamp|date('d.m.Y H:i:s') }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if article.processList.last is not empty %}
+                            <td>{{ article.processList.last.timestamp|date('d.m.Y H:i:s') }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+
+                        <td class="text-right">
+                            <a href="{{ path('graph.chart', {'id': article.id}) }}"
+                               class="btn btn-sm btn-success">Visualisieren</a>
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>

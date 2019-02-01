@@ -14,12 +14,12 @@ class Process extends AbstractEntity
     const PROPERTY_ARTICLE = 'article';
     /**
      * @var Article $article
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList")
      */
     protected $article;
     /**
      * @var Config $config
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config", inversedBy="processList", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Config", inversedBy="processList")
      */
     protected $config;
     /**

@@ -1,41 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block form %}
-    <span class="lead">Konfiguration</span>
-    <hr class="mt-1"/>
-    <div class="p-2">
-        {{ form_start(form) }}
-        <div class="form-row">
-            <div class="col">
-                {{ form_row(form.overlayText, {'label':'Name'}) }}
-                {{ form_row(form.article) }}
-            </div>
-        </div>
-        <hr class="mt-0"/>
-        <div class="form-row">
-            <div class="col">
-                {{ form_row(form.voltageLimit) }}
-                {{ form_row(form.voltageHysteresis) }}
-                {{ form_row(form.voltageStart) }}
-                {{ form_row(form.voltageStep) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.intensityLimit) }}
-                {{ form_row(form.intensityHysteresis) }}
-                {{ form_row(form.intensityThreshold) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.currentLimit) }}
-                {{ form_row(form.temperatureMaximum) }}
-            </div>
-        </div>
-        <hr class="mt-0"/>
-        <button type="submit" class="btn btn-sm btn-primary">Konfiguration ändern</button>
-        {{ form_end(form) }}
-    </div>
 
 {% endblock %}
 
 {% block body %}
-
+    <span class="lead">Konfiguration ändern</span>
+    <hr class="mt-1"/>
+    <div class="p-2 bg-light">
+        {{ form_start(form) }}
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.overlayText, {'label':'Name der Konfiguration'}) }}
+                {{ form_row(form.article, {'label':'Produkt wählen'}) }}
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.voltageLimit, {'label':'Obere Grenze für Spannung'}) }}
+                {{ form_row(form.voltageHysteresis, {'label':'Hysterese für Spannung'}) }}
+                {{ form_row(form.voltageStart, {'label':'Startwert Spannung'}) }}
+                {{ form_row(form.voltageStep, {'label':'Schrittweite für Spannungsänderung'}) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.intensityLimit, {'label':'Limit für Funkenintensität (%)'}) }}
+                {{ form_row(form.intensityHysteresis, {'label':'Hysterese für Funkenintensität (%)'}) }}
+                {{ form_row(form.intensityThreshold, {'label':'Schwellwert für Funkenintensität (%)'}) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.currentLimit, {'label':'Untere Grenze für Stromstärke'}) }}
+                {{ form_row(form.temperatureMaximum, {'label':'Maximale Temperatur des Elektrolyts (°C)'}) }}
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-sm btn-primary">Konfiguration ändern</button>
+            <a href="{{ path('config.index') }}"
+               class="btn btn-sm btn-danger"
+            >
+                Abbrechen
+            </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

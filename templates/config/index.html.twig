@@ -3,30 +3,30 @@
 {% block form %}
     <span class="lead">Neue Konfiguration</span>
     <hr class="mt-1"/>
-    <div class="p-2">
+    <div class="p-2 bg-light">
         {{ form_start(form) }}
         <div class="form-row">
             <div class="col">
-                {{ form_row(form.overlayText, {'label':'Name'}) }}
-                {{ form_row(form.article) }}
+                {{ form_row(form.overlayText, {'label':'Name der Konfiguration'}) }}
+                {{ form_row(form.article, {'label':'Produkt wählen'}) }}
             </div>
         </div>
         <hr class="mt-0"/>
         <div class="form-row">
             <div class="col">
-                {{ form_row(form.voltageLimit) }}
-                {{ form_row(form.voltageHysteresis) }}
-                {{ form_row(form.voltageStart) }}
-                {{ form_row(form.voltageStep) }}
+                {{ form_row(form.voltageLimit, {'label':'Obere Grenze für Spannung'}) }}
+                {{ form_row(form.voltageHysteresis, {'label':'Hysterese für Spannung'}) }}
+                {{ form_row(form.voltageStart, {'label':'Startwert Spannung'}) }}
+                {{ form_row(form.voltageStep, {'label':'Schrittweite für Spannungsänderung'}) }}
             </div>
             <div class="col">
-                {{ form_row(form.intensityLimit) }}
-                {{ form_row(form.intensityHysteresis) }}
-                {{ form_row(form.intensityThreshold) }}
+                {{ form_row(form.intensityLimit, {'label':'Limit für Funkenintensität (%)'}) }}
+                {{ form_row(form.intensityHysteresis, {'label':'Hysterese für Funkenintensität (%)'}) }}
+                {{ form_row(form.intensityThreshold, {'label':'Schwellwert für Funkenintensität (%)'}) }}
             </div>
             <div class="col">
-                {{ form_row(form.currentLimit) }}
-                {{ form_row(form.temperatureMaximum) }}
+                {{ form_row(form.currentLimit, {'label':'Untere Grenze für Stromstärke'}) }}
+                {{ form_row(form.temperatureMaximum, {'label':'Maximale Temperatur des Elektrolyts (°C)'}) }}
             </div>
         </div>
         <hr class="mt-0"/>
@@ -39,32 +39,32 @@
 {% block body %}
     <span class="lead">Konfigurationen</span>
     <hr class="mt-1"/>
-    <div class="p-2">
+    <div class="p-2 bg-light">
         <table class="table make-dt">
             <thead>
             <tr>
                 <th rowspan="2">Name</th>
                 <th rowspan="2">Produkt</th>
 
-                <th colspan="4">Voltage</th>
-                <th colspan="3">Intensity</th>
+                <th colspan="4">Spannung</th>
+                <th colspan="3">Funkenintensität</th>
 
-                <th>Current</th>
-                <th>Temperature</th>
+                <th>Stromstärke</th>
+                <th>Temperatur</th>
 
                 <th rowspan="2"></th>
             </tr>
             <tr>
-                <th>Limit</th>
-                <th>Hysteresis</th>
-                <th>Start</th>
-                <th>Step</th>
+                <th>Obere Grenze</th>
+                <th>Hysterese</th>
+                <th>Startwert</th>
+                <th>Schrittweite Änderung</th>
 
-                <th>Limit</th>
-                <th>Hysteresis</th>
-                <th>Threshold</th>
+                <th>Grenze</th>
+                <th>Hysterese</th>
+                <th>Schwellwert</th>
 
-                <th>Limit</th>
+                <th>Untere Grenze</th>
 
                 <th>Maximum</th>
             </tr>
@@ -90,8 +90,14 @@
 
                     <td class="text-right">
                         <div class="btn-group">
-                            <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span></a>
-                            <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}" class="btn btn-sm btn-danger"><span class="fa fa-trash-alt"></span></a>
+                            <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span
+                                    class="fa fa-pencil-alt"></span></a>
+                            <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Wirklich löschen?')"
+                            >
+                                <span class="fa fa-trash-alt"></span>
+                            </a>
                         </div>
                     </td>
                 </tr>

@@ -95,11 +95,11 @@ class GraphController extends AbstractController
                 $minValue . '000'
             );
 
-            $zc->setSeries('Volt', $svv);
-            $zc->setSeries('Current', $scv);
+            $zc->setSeries('Spannung', $svv);
+            $zc->setSeries('Stromstärke', $scv);
+            $zc->setSeries('Funkenintensität', $stp);
+            $zc->setSeries('Temperatur', $stv);
             $zc->setSeries('Frame', $scf);
-            $zc->setSeries('Pixel', $stp);
-            $zc->setSeries('Temp', $stv);
 //            $zc->setSeries('Status', $srv);
         } else {
             $zc = new GraphHelper('Not found');

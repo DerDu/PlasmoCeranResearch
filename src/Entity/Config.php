@@ -16,7 +16,7 @@ class Config extends AbstractEntity
 {
     /**
      * @var Article $article
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="configList", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="configList")
      */
     protected $article;
     /**

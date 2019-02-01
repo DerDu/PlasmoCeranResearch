@@ -3,7 +3,7 @@
 {% block form %}
     <span class="lead">Neues Produkt</span>
     <hr class="mt-1"/>
-    <div class="p-2">
+    <div class="p-2 bg-light">
         {{ form_start(form) }}
         {{ form_widget(form) }}
         <hr class="mt-0"/>
@@ -15,27 +15,33 @@
 {% block body %}
     <span class="lead">Produkte</span>
     <hr class="mt-1"/>
-    <div class="p-2">
-    <table class="table make-dt">
-        <thead>
+    <div class="p-2 bg-light">
+        <table class="table make-dt">
+            <thead>
             <tr>
                 <th>Name</th>
                 <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td>{{ article.name }}</td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <a href="{{ path('article.edit', {'id': article.id}) }}" class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span></a>
-                        <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}" class="btn btn-sm btn-danger"><span class="fa fa-trash-alt"></span></a>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.name }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <a href="{{ path('article.edit', {'id': article.id}) }}"
+                               class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span></a>
+                            <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Wirklich löschen?')"
+                            >
+                                <span class="fa fa-trash-alt"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
