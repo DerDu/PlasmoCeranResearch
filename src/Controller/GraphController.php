@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Process;
 use App\Helper\GraphHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\ProcessRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,29 +45,37 @@ class GraphController extends AbstractController
     /**
      * @Route("/", name="graph.index", methods="GET")
      * @return Response
+     * @throws NonUniqueResultException
      */
     public function index()
     {
         return $this->render('graph/index.html.twig', [
-            'articles' => $this->articleRepository->findAll()
+            'articles' => $this->articleRepository->findAll(),
+            'processes' => $this->processRepository->getProgressList()
         ]);
     }
 
     /**
      * @Route("/{id}", name="graph.chart", methods="GET")
-     * @param int $id
+     * @param string $id
      * @return Response
+     * @throws NonUniqueResultException
      */
-    public function chart(int $id = 0)
+    public function chart(string $id = '')
     {
 
-        $article = $this->articleRepository->find($id);
-        $processList = $article->getProcessList();
+        $processList = $this->processRepository->findBy( [Process::PROPERTY_PROCESS => $id] );
 
-        if (!$processList->isEmpty()) {
+//        $article = $this->articleRepository->find($id);
+
+//        $processList = $article->getProcessList();
+
+        if (!empty($processList)) {
 
             /** @var Process[] $data */
-            $data = $processList->getValues();
+            $data = $processList;
+
+            $article = current($data)->getArticle();
 
             $scf = array_map(function (Process $p) {
                 return $p->getCounterFrame();
@@ -100,14 +110,16 @@ class GraphController extends AbstractController
             $zc->setSeries('Funkenintensität', $stp);
             $zc->setSeries('Temperatur', $stv);
             $zc->setSeries('Frame', $scf);
-//            $zc->setSeries('Status', $srv);
+            $zc->setSeries('Status', $srv);
         } else {
             $zc = new GraphHelper('Not found');
         }
 
         return $this->render('graph/index.html.twig', [
             'chart' => $zc->getChart(),
-            'articles' => $this->articleRepository->findAll()
+            'articles' => $this->articleRepository->findAll(),
+            'processes' => $this->processRepository->getProgressList()
+
         ]);
     }
 }

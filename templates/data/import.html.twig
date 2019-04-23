@@ -1,15 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block form %}
+    <span class="lead">Daten importieren</span>
+    <hr class="mt-1"/>
+    <div class="p-2 bg-light">
+        {{ form_start(form) }}
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.attachment, {'label':'CSV Datei'}) }}
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <button type="submit" class="btn btn-sm btn-primary">Daten importieren</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
     {{ parent() }}
+    <script>
+        $('#{{ form.attachment.vars.id }}').on('change',function(){
+            var fileName = document.getElementById('{{ form.attachment.vars.id }}').files[0].name;
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    </script>
 {% endblock %}
 
 {% block body %}
 
-    <span class="lead">Konfiguration wählen</span>
+    <span class="lead">Gewählte Konfiguration</span>
     <hr class="mt-1"/>
     <div class="p-2 bg-light">
-        <table class="table make-dt">
+        <table class="table">
             <thead>
             <tr>
                 <th rowspan="2">Name</th>
@@ -20,8 +42,6 @@
 
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
-
-                <th rowspan="2"></th>
             </tr>
             <tr>
                 <th>Obere Grenze</th>
@@ -39,7 +59,6 @@
             </tr>
             </thead>
             <tbody>
-            {% for config in configs %}
                 <tr>
                     <td>{{ config.overlayText }}</td>
                     <td>{{ config.article.name }}</td>
@@ -56,16 +75,12 @@
                     <td>{{ config.currentLimit }}</td>
 
                     <td>{{ config.temperatureMaximum }}</td>
-
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <a href="{{ path('data.select', {'id': config.id}) }}" class="btn btn-sm btn-success"><span class="fa fa-download"></span> Daten importieren</a>
-                        </div>
-                    </td>
                 </tr>
-            {% endfor %}
             </tbody>
         </table>
+
+        <a href="{{ path('data.index') }}" class="btn btn-sm btn-primary"> Andere Konfiguration wählen</a>
+
     </div>
 
 {% endblock %}

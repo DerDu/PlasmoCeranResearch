@@ -35,9 +35,6 @@
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
 
-                <th rowspan="2">Von</th>
-                <th rowspan="2">Bis</th>
-
                 <th rowspan="2"></th>
             </tr>
             <tr>
@@ -75,20 +72,38 @@
 
                         <td>{{ config.temperatureMaximum }}</td>
 
-                        {% if article.processList.first is not empty %}
-                            <td>{{ article.processList.first.timestamp|date('d.m.Y H:i:s') }}</td>
-                        {% else %}
-                            <td></td>
-                        {% endif %}
-                        {% if article.processList.last is not empty %}
-                            <td>{{ article.processList.last.timestamp|date('d.m.Y H:i:s') }}</td>
-                        {% else %}
-                            <td></td>
-                        {% endif %}
-
                         <td class="text-right">
-                            <a href="{{ path('graph.chart', {'id': article.id}) }}"
-                               class="btn btn-sm btn-success">Visualisieren</a>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Von</th>
+                                        <th>Bis</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for process in processes %}
+                                        {% if( process.article == article.id and process.config == config.id ) %}
+                                    <tr>
+                                        <td>
+                                            {{ process.min|date('d.m.Y H:i:s') }}
+                                        </td>
+                                        <td>
+                                            {{ process.max|date('d.m.Y H:i:s') }}
+                                        </td>
+                                        <td>
+
+                                            <a href="{{ path('graph.chart', {'id': process.process}) }}"
+                                               class="btn btn-sm btn-success">Visualisieren</a>
+
+                                        </td>
+                                    </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
                         </td>
                     </tr>
                 {% endfor %}

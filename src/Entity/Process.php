@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Process extends AbstractEntity
 {
     const PROPERTY_ARTICLE = 'article';
+    const PROPERTY_CONFIG = 'config';
+    const PROPERTY_PROCESS = 'process';
+    const PROPERTY_TIMESTAMP = 'timestamp';
     /**
      * @var Article $article
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="processList")
