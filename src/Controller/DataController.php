@@ -113,9 +113,9 @@ class DataController extends AbstractController
                             ($ep->getTemperatureValue() + (float)($v[5] ?? 0.0))
                             / 2
                         );
-                        if( $ep->getRemarkValue() != (string)($v[6] ?? '') ) {
+                        if( !preg_match( '!'.preg_quote((string)($v[6] ?? '')).'!is', $ep->getRemarkValue() ) ) {
                             $ep->setRemarkValue(
-                                $ep->getRemarkValue() . (string)($v[6] ?? '')
+                                $ep->getRemarkValue() .', '. (string)($v[6] ?? '')
                             );
                         }
                         $em->persist($ep);
