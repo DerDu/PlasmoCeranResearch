@@ -51,6 +51,7 @@ class ConfigController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
+            $this->addFlash('success', ' Daten wurden angelegt');
             return $this->redirectToRoute('config.index');
         }
 
@@ -75,7 +76,7 @@ class ConfigController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', ' Wurde geändert');
+            $this->addFlash('success', ' Daten wurden geändert');
             return $this->redirectToRoute('config.index');
         }
 
@@ -98,10 +99,10 @@ class ConfigController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($config);
             $em->flush();
-            $this->addFlash('success', 'Wurde gelöscht');
+            $this->addFlash('success', 'Daten wurden gelöscht');
             return $this->redirectToRoute('config.index');
         }
-        $this->addFlash('danger', 'Wurde nicht gelöscht');
+        $this->addFlash('warning', 'Daten konnten nicht gelöscht werden');
 
         return $this->redirectToRoute('config.index');
     }

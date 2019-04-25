@@ -109,7 +109,8 @@
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 <script>
-    $(".alert").delay(5000).slideUp(300);
+    $(".alert.alert-warning").delay(5000).slideUp(300);
+    $(".alert.alert-success").delay(5000).slideUp(300);
 </script>
 <script>
     $('.make-dt').DataTable({
@@ -156,7 +157,8 @@
         },
         "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Alle"] ],
         "autoWidth": false,
-        "stateSave": true
+        "stateSave": true,
+        "sort": false
     });
 </script>
 {% block javascripts %}{% endblock %}

@@ -21,7 +21,8 @@
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
 
-                <th rowspan="2">Optionen</th>
+                <th rowspan="2" style="width: 1%;">Angelegt</th>
+                <th rowspan="2" style="width: 1%;">Optionen</th>
             </tr>
             <tr>
                 <th class="small">Obere Grenze</th>
@@ -42,7 +43,7 @@
             {% for config in configs %}
                 <tr>
                     <td>{{ config.overlayText }}</td>
-                    <td>{{ config.article.name }}</td>
+                    <td>{% if( config.article is not empty ) %}{{ config.article.name }}{% else %}<span class="alert alert-danger">Kein Produkt zugeordnet</span>{% endif %}</td>
 
                     <td>{{ config.voltageLimit }}</td>
                     <td>{{ config.voltageHysteresis }}</td>
@@ -57,10 +58,21 @@
 
                     <td>{{ config.temperatureMaximum }}</td>
 
+                    <td>{{ config.entityCreate|date('d.m.Y H:i:s') }}</td>
+
                     <td class="text-center">
+                        {% if( config.article is not empty ) %}
                         <div class="btn-group">
                             <a href="{{ path('data.select', {'id': config.id}) }}" class="btn btn-sm btn-success"><span class="fa fa-download"></span> Datei importieren</a>
                         </div>
+                        {% else %}
+                            <span>
+                                Es muss ein Produkt hinterlegt werden bevor Daten importiert werden können
+                                                        <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span
+                                                                    class="fa fa-pencil-alt"></span> Konfiguration bearbeiten</a>
+                            </span>
+
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

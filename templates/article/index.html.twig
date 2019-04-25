@@ -20,6 +20,7 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th style="width: 1%;">Angelegt</th>
                 <th style="width: 1%;">Optionen</th>
             </tr>
             </thead>
@@ -27,16 +28,23 @@
             {% for article in articles %}
                 <tr>
                     <td>{{ article.name }}</td>
+                    <td>{{ article.entityCreate|date('d.m.Y H:i:s') }}</td>
                     <td class="text-center">
                         <div class="btn-group">
                             <a href="{{ path('article.edit', {'id': article.id}) }}"
                                class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span> Bearbeiten</a>
-                            <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}"
-                               class="btn btn-sm btn-danger"
-                               onclick="return confirm('Wirklich löschen?')"
-                            >
-                                <span class="fa fa-trash-alt"></span>
-                            </a>
+                            {% if( article.configList is empty ) %}
+                                <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Wirklich löschen?')"
+                                >
+                                    <span class="fa fa-trash-alt"></span>
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-sm btn-outline-danger disabled">
+                                    <span class="fa fa-trash-alt"></span>
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

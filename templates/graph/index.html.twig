@@ -4,13 +4,13 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
+{% block form %}
     <span class="lead">Visualisierung</span>
     {% if chart is defined %}
         <div>{{ current }}</div>
-
-        <div id="myChart"></div>
-        {% else %}
+        <a name="graph"></a>
+        <div id="myChart" style="border: 1px solid lightgray;"></div>
+    {% else %}
         <div>Bitte einen Import zur Visualisierung wählen</div>
     {% endif %}
 {% endblock %}
@@ -22,11 +22,11 @@
     {% endif %}
 {% endblock %}
 
-{% block form %}
+{% block body %}
 
     <span class="lead">Daten</span>
     <hr class="mt-1"/>
-    <div class="p-2 bg-light small">
+    <div class="p-2 bg-light">
         <table class="table table-striped table-bordered make-dt">
             <thead>
 
@@ -40,7 +40,8 @@
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
 
-                <th rowspan="2">Datensätze</th>
+                <th rowspan="2" style="width: 1%;">Angelegt</th>
+                <th rowspan="2" style="width: 1%;">Datensätze</th>
             </tr>
             <tr>
                 <th class="small">Obere Grenze</th>
@@ -61,7 +62,8 @@
             {% for article in articles %}
                 {% for config in article.configList %}
                     <tr>
-                        <td>{{ article.name }}</td>
+                        <td>{% if( article is not empty ) %}{{ article.name }}{% else %}<span
+                                    class="alert alert-danger">Kein Produkt zugeordnet</span>{% endif %}</td>
                         <td>{{ config.overlayText }}</td>
 
                         <td>{{ config.voltageLimit }}</td>
@@ -76,50 +78,59 @@
                         <td>{{ config.currentLimit }}</td>
 
                         <td>{{ config.temperatureMaximum }}</td>
+                        <td>{{ config.entityCreate|date('d.m.Y H:i:s') }}</td>
 
                         <td class="text-center">
-
-                            <table class="table table-sm">
-                                <thead>
+                            {% if(processes is empty) %}
+                                Keine Daten vorhanden<br/>
+                                {% if( config.article is not empty ) %}
+                                    <div class="btn-group">
+                                        <a href="{{ path('data.select', {'id': config.id}) }}" class="btn btn-sm btn-success"><span class="fa fa-download"></span> Datei importieren</a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <table class="table table-sm">
+                                    <thead>
                                     <tr>
-                                        <th>Importiert am</th>
-                                        <th>Daten Von</th>
-                                        <th>Daten Bis</th>
+                                        <th>Importiert</th>
+                                        <th>Daten&nbsp;Von</th>
+                                        <th>Daten&nbsp;Bis</th>
                                         <th></th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     {% for process in processes %}
                                         {% if( process.article == article.id and process.config == config.id ) %}
-                                    <tr>
-                                        <td>
-                                            {{ process.import|date('d.m.Y') }}<br/>{{ process.import|date('H:i:s') }}
-{#                                            <div class="small text-muted">ID: {{ process.process }}</div>#}
-                                        </td>
-                                        <td>
-                                            {{ process.min|date('d.m.Y') }}<br/>{{ process.min|date('H:i:s') }}
-                                        </td>
-                                        <td>
-                                            {{ process.max|date('d.m.Y') }}<br/>{{ process.max|date('H:i:s') }}
-                                        </td>
-                                        <td>
-                                            <div class="btn-group">
-                                            <a href="{{ path('graph.chart', {'id': process.process}) }}"
-                                               class="btn btn-sm btn-success">Visualisieren</a>
-                                            <a href="{{ path('graph.delete', {'id': process.process, '_token': csrf_token('delete'~process.process) } ) }}"
-                                               class="btn btn-sm btn-danger"
-                                               onclick="return confirm('Wirklich löschen?')"
-                                            >
-                                                <span class="fa fa-trash-alt"></span>
-                                            </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            <tr>
+                                                <td>
+                                                    {{ process.import|date('d.m.Y') }}
+                                                    <br/>{{ process.import|date('H:i:s') }}
+                                                    {#                                            <div class="small text-muted">ID: {{ process.process }}</div>#}
+                                                </td>
+                                                <td>
+                                                    {{ process.min|date('d.m.Y') }}<br/>{{ process.min|date('H:i:s') }}
+                                                </td>
+                                                <td>
+                                                    {{ process.max|date('d.m.Y') }}<br/>{{ process.max|date('H:i:s') }}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{{ path('graph.chart', {'id': process.process}) }}#graph"
+                                                           class="btn btn-sm btn-success">Visualisieren</a>
+                                                        <a href="{{ path('graph.delete', {'id': process.process, '_token': csrf_token('delete'~process.process) } ) }}"
+                                                           class="btn btn-sm btn-danger"
+                                                           onclick="return confirm('Wirklich löschen?')"
+                                                        >
+                                                            <span class="fa fa-trash-alt"></span>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         {% endif %}
                                     {% endfor %}
-                                </tbody>
-                            </table>
-
+                                    </tbody>
+                                </table>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

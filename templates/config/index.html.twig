@@ -52,6 +52,7 @@
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
 
+                <th rowspan="2" style="width: 1%;">Angelegt</th>
                 <th rowspan="2" style="width: 1%;">Optionen</th>
             </tr>
             <tr>
@@ -73,7 +74,7 @@
             {% for config in configs %}
                 <tr>
                     <td>{{ config.overlayText }}</td>
-                    <td>{{ config.article.name }}</td>
+                    <td>{% if( config.article is not empty ) %}{{ config.article.name }}{% else %}<span class="alert alert-danger">Kein Produkt zugeordnet</span>{% endif %}</td>
 
                     <td>{{ config.voltageLimit }}</td>
                     <td>{{ config.voltageHysteresis }}</td>
@@ -87,6 +88,7 @@
                     <td>{{ config.currentLimit }}</td>
 
                     <td>{{ config.temperatureMaximum }}</td>
+                    <td>{{ config.entityCreate|date('d.m.Y H:i:s') }}</td>
 
                     <td class="text-center">
                         <div class="btn-group">

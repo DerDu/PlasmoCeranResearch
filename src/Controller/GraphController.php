@@ -67,7 +67,7 @@ class GraphController extends AbstractController
     {
         $process = $this->processRepository->findOneBy([Process::PROPERTY_PROCESS => $id]);
 
-        if ($this->isCsrfTokenValid('delete' . $process->getProcess(), $request->get('_token'))) {
+        if ($process && $this->isCsrfTokenValid('delete' . $process->getProcess(), $request->get('_token'))) {
 
             $processes = $this->processRepository->findBy([Process::PROPERTY_PROCESS => $process->getProcess()]);
             $em = $this->getDoctrine()->getManager();
@@ -75,10 +75,10 @@ class GraphController extends AbstractController
                 $em->remove($process);
             }
             $em->flush();
-            $this->addFlash('success', 'Wurde gelöscht');
+            $this->addFlash('success', 'Daten wurden gelöscht');
             return $this->redirectToRoute('graph.index');
         }
-        $this->addFlash('danger', 'Wurde nicht gelöscht');
+        $this->addFlash('warning', 'Daten konnten nicht gelöscht werden');
 
         return $this->redirectToRoute('graph.index');
     }
@@ -106,7 +106,7 @@ class GraphController extends AbstractController
 
             $article = current($data)->getArticle();
 
-            $current = $article->getName().' - '.$this->processRepository->getImportTimestamp($data[0]->getProcess());
+            $current = $article->getName().' - '.date('d.m.Y H:i:s',strtotime($this->processRepository->getImportTimestamp($data[0]->getProcess())));
 
             $scf = array_map(function (Process $p) {
                 return $p->getCounterFrame();
@@ -140,8 +140,8 @@ class GraphController extends AbstractController
             $zc->setSeries('Stromstärke', $scv);
             $zc->setSeries('Funkenintensität', $stp);
             $zc->setSeries('Temperatur', $stv);
-            $zc->setSeries('Frame', $scf);
-            $zc->setSeries('Status', $srv);
+//            $zc->setSeries('Frame', $scf);
+//            $zc->setSeries('Status', $srv);
         } else {
             $zc = new GraphHelper('Not found');
         }

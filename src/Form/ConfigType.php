@@ -39,7 +39,7 @@ class ConfigType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Config::class,
+            'data_class' => Config::class
         ]);
     }
 }

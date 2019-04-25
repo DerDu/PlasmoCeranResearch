@@ -52,7 +52,7 @@ class ArticleController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
-            $this->addFlash('success', $article->getName().' wurde angelegt');
+            $this->addFlash('success', 'Daten wurden angelegt');
             return $this->redirectToRoute('article.index');
         }
 
@@ -77,7 +77,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', $article->getName().' wurde geändert');
+            $this->addFlash('success', 'Daten wurden geändert');
             return $this->redirectToRoute('article.index');
         }
 
@@ -100,10 +100,10 @@ class ArticleController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
             $em->flush();
-            $this->addFlash('success', $article->getName().' wurde gelöscht');
+            $this->addFlash('success', 'Daten wurden gelöscht');
             return $this->redirectToRoute('article.index');
         }
-        $this->addFlash('danger', $article->getName().' wurde nicht gelöscht');
+        $this->addFlash('warning', 'Daten konnten nicht gelöscht werden');
 
         return $this->redirectToRoute('article.index');
     }
