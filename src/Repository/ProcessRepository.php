@@ -32,15 +32,34 @@ class ProcessRepository extends ServiceEntityRepository
             ->addSelect('(p.' . Process::PROPERTY_CONFIG . ')' . ' as ' . Process::PROPERTY_CONFIG)
             ->addSelect('p.' . Process::PROPERTY_PROCESS)
             ->distinct(true)
+            ->orderBy('p.' . Process::ENTITY_CREATE, 'ASC')
             ->getQuery();
         $processList = $q->getResult();
 
         foreach ($processList as $index => $process) {
             $processList[$index]['min'] = $this->getMinTimestamp($process[Process::PROPERTY_PROCESS]);
             $processList[$index]['max'] = $this->getMaxTimestamp($process[Process::PROPERTY_PROCESS]);
+            $processList[$index]['import'] = $this->getImportTimestamp($process[Process::PROPERTY_PROCESS]);
         }
 
         return $processList;
+    }
+
+    /**
+     * @param $process
+     * @return mixed
+     * @throws NonUniqueResultException
+     */
+    public function getImportTimestamp(string $process): string
+    {
+        $qb = $this->createQueryBuilder('p');
+        $q = $qb
+            ->select($qb->expr()->min('p.' . Process::ENTITY_CREATE))
+            ->where($qb->expr()->eq('p.' . Process::PROPERTY_PROCESS, '?1'))
+            ->setParameter('1', $process)
+            ->distinct(true)
+            ->getQuery();
+        return $q->getSingleScalarResult();
     }
 
     /**

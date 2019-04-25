@@ -16,6 +16,17 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .custom-file-input:lang(en) {
+            cursor: pointer;
+        }
+        .custom-file-input:lang(en)~.custom-file-label::after {
+            content: "Datei suchen";
+        }
+    </style>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script>
@@ -31,7 +42,7 @@
     <span class="lead">Gewählte Konfiguration</span>
     <hr class="mt-1"/>
     <div class="p-2 bg-light">
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th rowspan="2">Name</th>
@@ -44,18 +55,18 @@
                 <th>Temperatur</th>
             </tr>
             <tr>
-                <th>Obere Grenze</th>
-                <th>Hysterese</th>
-                <th>Startwert</th>
-                <th>Schrittweite Änderung</th>
+                <th class="small">Obere Grenze</th>
+                <th class="small">Hysterese</th>
+                <th class="small">Startwert</th>
+                <th class="small">Schrittweite Änderung</th>
 
-                <th>Grenze</th>
-                <th>Hysterese</th>
-                <th>Schwellwert</th>
+                <th class="small">Grenze</th>
+                <th class="small">Hysterese</th>
+                <th class="small">Schwellwert</th>
 
-                <th>Untere Grenze</th>
+                <th class="small">Untere Grenze</th>
 
-                <th>Maximum</th>
+                <th class="small">Maximum</th>
             </tr>
             </thead>
             <tbody>

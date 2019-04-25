@@ -21,4 +21,5 @@ $_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !=
 $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int) $_SERVER['APP_DEBUG'] || filter_var($_SERVER['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN) ? '1' : '0';
 
 set_time_limit(3600);
-ini_set('memory_limit','2G');
+ini_set('memory_limit','768m');
+ini_set('date.timezone','Europe/Berlin');

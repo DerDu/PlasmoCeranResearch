@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Entity\Process;
 use App\Helper\GraphHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\ProcessRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -56,6 +56,34 @@ class GraphController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/delete", name="graph.delete")
+     *
+     * @param Request $request
+     * @param string $id
+     *
+     * @return Response
+     */
+    public function delete(Request $request, string $id = ''): Response
+    {
+        $process = $this->processRepository->findOneBy([Process::PROPERTY_PROCESS => $id]);
+
+        if ($this->isCsrfTokenValid('delete' . $process->getProcess(), $request->get('_token'))) {
+
+            $processes = $this->processRepository->findBy([Process::PROPERTY_PROCESS => $process->getProcess()]);
+            $em = $this->getDoctrine()->getManager();
+            foreach( $processes as $process ) {
+                $em->remove($process);
+            }
+            $em->flush();
+            $this->addFlash('success', 'Wurde gelöscht');
+            return $this->redirectToRoute('graph.index');
+        }
+        $this->addFlash('danger', 'Wurde nicht gelöscht');
+
+        return $this->redirectToRoute('graph.index');
+    }
+
+    /**
      * @Route("/{id}", name="graph.chart", methods="GET")
      * @param string $id
      * @return Response
@@ -70,12 +98,15 @@ class GraphController extends AbstractController
 
 //        $processList = $article->getProcessList();
 
+        $current = false;
         if (!empty($processList)) {
 
             /** @var Process[] $data */
             $data = $processList;
 
             $article = current($data)->getArticle();
+
+            $current = $article->getName().' - '.$this->processRepository->getImportTimestamp($data[0]->getProcess());
 
             $scf = array_map(function (Process $p) {
                 return $p->getCounterFrame();
@@ -93,7 +124,7 @@ class GraphController extends AbstractController
                 return $p->getTemperatureValue();
             }, $data);
             $srv = array_map(function (Process $p) {
-                return $p->getRemarkValue();
+                return '# '.(string)$p->getRemarkValue();
             }, $data);
 
 
@@ -118,8 +149,8 @@ class GraphController extends AbstractController
         return $this->render('graph/index.html.twig', [
             'chart' => $zc->getChart(),
             'articles' => $this->articleRepository->findAll(),
-            'processes' => $this->processRepository->getProgressList()
-
+            'processes' => $this->processRepository->getProgressList(),
+            'current' =>  $current
         ]);
     }
 }

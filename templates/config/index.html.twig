@@ -40,7 +40,7 @@
     <span class="lead">Konfigurationen</span>
     <hr class="mt-1"/>
     <div class="p-2 bg-light">
-        <table class="table make-dt">
+        <table class="table table-striped table-bordered make-dt">
             <thead>
             <tr>
                 <th rowspan="2">Name</th>
@@ -52,21 +52,21 @@
                 <th>Stromstärke</th>
                 <th>Temperatur</th>
 
-                <th rowspan="2"></th>
+                <th rowspan="2" style="width: 1%;">Optionen</th>
             </tr>
             <tr>
-                <th>Obere Grenze</th>
-                <th>Hysterese</th>
-                <th>Startwert</th>
-                <th>Schrittweite Änderung</th>
+                <th class="small">Obere Grenze</th>
+                <th class="small">Hysterese</th>
+                <th class="small">Startwert</th>
+                <th class="small">Schrittweite Änderung</th>
 
-                <th>Grenze</th>
-                <th>Hysterese</th>
-                <th>Schwellwert</th>
+                <th class="small">Grenze</th>
+                <th class="small">Hysterese</th>
+                <th class="small">Schwellwert</th>
 
-                <th>Untere Grenze</th>
+                <th class="small">Untere Grenze</th>
 
-                <th>Maximum</th>
+                <th class="small">Maximum</th>
             </tr>
             </thead>
             <tbody>
@@ -88,10 +88,10 @@
 
                     <td>{{ config.temperatureMaximum }}</td>
 
-                    <td class="text-right">
+                    <td class="text-center">
                         <div class="btn-group">
                             <a href="{{ path('config.edit', {'id': config.id}) }}" class="btn btn-sm btn-primary"><span
-                                    class="fa fa-pencil-alt"></span></a>
+                                    class="fa fa-pencil-alt"></span> Bearbeiten</a>
                             <a href="{{ path('config.delete', {'id': config.id, '_token': csrf_token('delete'~config.id) } ) }}"
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Wirklich löschen?')"

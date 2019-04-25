@@ -16,21 +16,21 @@
     <span class="lead">Produkte</span>
     <hr class="mt-1"/>
     <div class="p-2 bg-light">
-        <table class="table make-dt">
+        <table class="table table-striped table-bordered make-dt">
             <thead>
             <tr>
                 <th>Name</th>
-                <th></th>
+                <th style="width: 1%;">Optionen</th>
             </tr>
             </thead>
             <tbody>
             {% for article in articles %}
                 <tr>
                     <td>{{ article.name }}</td>
-                    <td class="text-right">
+                    <td class="text-center">
                         <div class="btn-group">
                             <a href="{{ path('article.edit', {'id': article.id}) }}"
-                               class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span></a>
+                               class="btn btn-sm btn-primary"><span class="fa fa-pencil-alt"></span> Bearbeiten</a>
                             <a href="{{ path('article.delete', {'id': article.id, '_token': csrf_token('delete'~article.id) } ) }}"
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Wirklich löschen?')"

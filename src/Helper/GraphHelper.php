@@ -34,7 +34,7 @@ class GraphHelper
     {
         $this->chart = new ZC($id);
 
-        $this->setConfig('utc', true);
+//        $this->setConfig('utc', true);
 
         $this->setConfig('gui.contextMenu.empty',true);
 

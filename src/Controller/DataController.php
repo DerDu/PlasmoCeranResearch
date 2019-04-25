@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
-use App\Entity\Config;
 use App\Entity\Process;
 use App\Form\ImportType;
 use App\Repository\ArticleRepository;
 use App\Repository\ConfigRepository;
+use DateTime;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -56,7 +56,7 @@ class DataController extends AbstractController
      * @Route("/{id}/select", name="data.select")
      *
      * @param Request $request
-     * @param Config $config
+     * @param int $id
      *
      * @return Response
      */
@@ -89,14 +89,17 @@ class DataController extends AbstractController
                 $a = $c->getArticle();
 
                 try {
+                    // drop first uuid in case of restart, bug: gets last uuid instead of new one
+                    Uuid::uuid4();
+                    // get valid uuid
                     $uuid = Uuid::uuid4();
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $uuid = uniqid(__METHOD__, true);
                 }
 
                 array_walk($csv, function ($v) use ($em, $a, $c, $uuid, &$ep) {
 
-                    if( $ep instanceof Process && $ep->getTimestamp() == new \DateTime($v[0]) ) {
+                    if( $ep instanceof Process && $ep->getTimestamp() == new DateTime($v[0]) ) {
                         $ep->setThresholdPixel(
                             ($ep->getThresholdPixel() +(int)($v[2] ?? 0))
                             / 2
@@ -124,7 +127,7 @@ class DataController extends AbstractController
                         $e->setArticle($a);
                         $e->setConfig($c);
                         $e->setProcess($uuid);
-                        $e->setTimestamp(new \DateTime($v[0]));
+                        $e->setTimestamp(new DateTime($v[0]));
                         $e->setCounterFrame((int)$v[1] ?? 0);
                         $e->setThresholdPixel((int)($v[2] ?? 0));
                         $e->setVoltageValue((float)($v[3] ?? 0.0));
